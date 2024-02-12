@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaBars } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import { TypeAnimation } from 'react-type-animation';
 import UserProfile from '../../assets/userProfile.png';
 
@@ -31,6 +34,11 @@ useEffect(() => {
 
 useEffect(() => {
   setIsOnDashboard(location.pathname === '/dashboard');
+  if (location.pathname === '/dashboard') {
+    document.body.style.backgroundColor = 'black';
+  } else {
+    document.body.style.backgroundColor = 'white'; // or any other default color
+  }
 }, [navigate, location]);
   
 useEffect(() => {
@@ -55,6 +63,11 @@ useEffect(() => {
     checkAndNavigate();
   }, [navigate]);
 
+  useEffect(() => {
+    AOS.init({
+      duration : 1000
+    });
+  }, []);
 
   const navbarStyle = `py-2 px-2 border-b-4 border-transparent ${isLoggedIn?`${isOnDashboard? 'text-white':'text-brown'}`:' text-darkBlue'}  ${isLoggedIn?'hover:border-brown':'hover:border-darkBlue'} font-medium rounded`;
   return (
@@ -92,7 +105,7 @@ useEffect(() => {
 
 
 
-      <div className={`${isOpen ? 'block' : 'hidden'} w-full h-screen fixed top-23 transition-all duration-500 ease-in-out  ${!isLoggedIn?'bg-skyBlue':`${isOnDashboard? 'bg-black':'bg-skin' }`}`}>
+      <div className={`${isOpen ? 'block' : 'hidden'} w-full h-screen fixed top-23 transition-all duration-500 ease-in-out z-10 ${!isLoggedIn?'bg-skyBlue':`${isOnDashboard? 'bg-black':'bg-skin' }`}`}>
 
         <div className="flex flex-col items-center justify-center h-full -mt-10 gap-10">
         {isLoggedIn ? 
@@ -105,11 +118,9 @@ useEffect(() => {
                 </Link>
               </div> : 
             
-            <div className='btn' onClick={() => setIsOpen(false)} >
-            <Link data-aos="fade-left" to="/login" className=" flex items-center justify-center min-w-20 font-medium text-white btn-content-login duration-500 transition-all ">
-            Login
-          </Link>
-          </div>
+              <Link onClick={() => setIsOpen(false)} data-aos="fade-left" to="/login" className=" flex items-center justify-center py-2 min-w-20 font-medium text-darkBlue rounded hover:text-midBlue duration-500 transition-all ">
+                Login
+              </Link>
               }
 
           <Link to="/" className={navbarStyle} onClick={() => setIsOpen(false)}>Home</Link>
