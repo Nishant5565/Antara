@@ -9,8 +9,6 @@ import Img14 from '../../assets/Flowers/pngwing.com (14).png';
 
 
 const Hero = () => {
-
-  // console.log(Img6);
   return ( 
     <div className='hero-container h-screen -z-10 w-screen flex items-center justify-center overflow-hidden'>
       <div className="content -z-50">
